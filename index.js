@@ -1,6 +1,7 @@
 let correct = 0;
 let incorrect = 0;
 let num1, num2;
+let answerRevealed = false;
 
 const problemEl = document.getElementById('problem');
 const answerEl = document.getElementById('answer');
@@ -14,17 +15,22 @@ function generateProblem() {
     problemEl.textContent = `${num1} × ${num2} = ?`;
     answerEl.value = '';
     answerEl.focus();
+    answerRevealed = false;
+    hideFeedback();
 }
 
 function checkAnswer() {
     const userAnswer = parseInt(answerEl.value);
     if (userAnswer === num1 * num2) {
-        correct++;
+        if (!answerRevealed) {
+            correct++;
+        }
         showFeedback('Správne!', 'correct');
         updateScores();
         generateProblem();
     } else {
         incorrect++;
+        answerRevealed = true;
         showFeedback(`Nesprávne! Správna odpoveď je <strong>${num1 * num2}</strong>`, 'incorrect');
         updateScores();
         answerEl.value = '';
